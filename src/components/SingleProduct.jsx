@@ -5,6 +5,15 @@ import Rating from "./Rating";
 
 const SingleProduct = ({ prod }) => {
   const {
+    id,
+    name: productName,
+    price,
+    image,
+    fastDelivery,
+    ratings,
+    inStock,
+  } = prod;
+  const {
     state: { cart },
     dispatch,
   } = CartState();
@@ -12,19 +21,19 @@ const SingleProduct = ({ prod }) => {
   return (
     <div className="products">
       <Card>
-        <Card.Img variant="top" src={prod.image} alt={prod.name} />
+        <Card.Img variant="top" src={image} alt={name} />
         <Card.Body>
-          <Card.Title>{prod.name}</Card.Title>
+          <Card.Title>{productName}</Card.Title>
           <Card.Subtitle style={{ paddingBottom: 10 }}>
-            <span>₹ {prod.price.split(".")[0]}</span>
-            {prod.fastDelivery ? (
+            <span>₹ {String(price).split(".")[0]}</span>
+            {fastDelivery ? (
               <div>Fast Delivery</div>
             ) : (
               <div>4 days delivery</div>
             )}
-            <Rating rating={prod.ratings} />
+            <Rating rating={ratings} />
           </Card.Subtitle>
-          {cart.some((p) => p.id === prod.id) ? (
+          {cart.some((p) => p.id === id) ? (
             <Button
               variant="danger"
               onClick={() =>
@@ -44,9 +53,9 @@ const SingleProduct = ({ prod }) => {
                   payload: prod,
                 })
               }
-              disabled={!prod.inStock}
+              disabled={!inStock}
             >
-              {!prod.inStock ? "Out of Stock" : "Add to Cart"}
+              {!inStock ? "Out of Stock" : "Add to Cart"}
             </Button>
           )}
         </Card.Body>
