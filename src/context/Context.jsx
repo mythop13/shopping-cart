@@ -3,6 +3,7 @@ import { cartReducer, productReducer } from "./Reducers";
 import { productA, productB, productC, productD, productE } from "../assets";
 
 const Cart = createContext();
+// eslint-disable-next-line react/prop-types
 const Context = ({ children }) => {
   // const products = [...Array(20)].map(() => ({
   //   id: 1,

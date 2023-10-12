@@ -1,39 +1,57 @@
+import { FaShoppingCart } from "react-icons/fa";
+import { AiFillDelete } from "react-icons/ai";
 import {
   Badge,
+  Button,
   Container,
   Dropdown,
   FormControl,
   Nav,
   Navbar,
 } from "react-bootstrap";
-import { FaShoppingCart } from "react-icons/fa";
-import { AiFillDelete } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { CartState } from "../context/Context";
+import "./styles.css";
 
 const Header = () => {
+  const {
+    state: { cart },
+    dispatch,
+    productDispatch,
+  } = CartState();
+
   return (
     <Navbar bg="dark" variant="dark" style={{ height: 80 }}>
       <Container>
         <Navbar.Brand>
           <Link to="/">Shopping Cart</Link>
         </Navbar.Brand>
-        <Navbar.Text className="search">
-          <FormControl
-            style={{ width: 500 }}
-            placeholder="Search a product"
-            className="m-auto"
-          />
-        </Navbar.Text>
+        {useLocation().pathname.split("/")[1] !== "cart" && (
+          <Navbar.Text className="search">
+            <FormControl
+              style={{ width: 500 }}
+              type="search"
+              placeholder="Search a product..."
+              className="m-auto"
+              aria-label="Search"
+              onChange={(e) => {
+                productDispatch({
+                  type: "FILTER_BY_SEARCH",
+                  payload: e.target.value,
+                });
+              }}
+            />
+          </Navbar.Text>
+        )}
         <Nav>
           <Dropdown alignRight>
             <Dropdown.Toggle variant="success">
               <FaShoppingCart color="white" fontSize="25px" />
-              <Badge>{10}</Badge>
+              <Badge>{cart.length}</Badge>
             </Dropdown.Toggle>
 
             <Dropdown.Menu style={{ minWidth: 370 }}>
-              <span style={{ padding: 10 }}>Cart is Empty!</span>
-              {/* {cart.length > 0 ? (
+              {cart.length > 0 ? (
                 <>
                   {cart.map((prod) => (
                     <span className="cartitem" key={prod.id}>
@@ -66,7 +84,7 @@ const Header = () => {
                 </>
               ) : (
                 <span style={{ padding: 10 }}>Cart is Empty!</span>
-              )} */}
+              )}
             </Dropdown.Menu>
           </Dropdown>
         </Nav>

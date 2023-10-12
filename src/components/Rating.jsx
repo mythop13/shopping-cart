@@ -1,5 +1,6 @@
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
+// eslint-disable-next-line react/prop-types
 const Rating = ({ rating, onClick, style }) => {
   return (
     <>
